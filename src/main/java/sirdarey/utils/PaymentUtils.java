@@ -16,7 +16,7 @@ public class PaymentUtils {
 		paymentMap.put("acc4", 25000.0);
 	}
 	
-	public static void validatePayment (String accNo, double paidAmount) {
+	public static void validatePayment (String accNo, double paidAmount) throws InsufficientFundsException {
 		if (paidAmount > paymentMap.get(accNo))
 			throw new InsufficientFundsException("You have Insufficient Funds for this Transaction");
 	}

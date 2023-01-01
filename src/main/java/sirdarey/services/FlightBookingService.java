@@ -10,6 +10,7 @@ import sirdarey.dto.FlightBookingRequest;
 import sirdarey.dto.FlightBookingResponse;
 import sirdarey.entity.Passenger;
 import sirdarey.entity.Payment;
+import sirdarey.exceptions.InsufficientFundsException;
 import sirdarey.repository.PassengerRepo;
 import sirdarey.repository.PaymentRepo;
 import sirdarey.utils.PaymentUtils;
@@ -22,8 +23,8 @@ public class FlightBookingService {
 	@Autowired
 	PaymentRepo paymentRepo;
 	
-	@Transactional
-	public FlightBookingResponse getResponse (FlightBookingRequest request) {
+	@Transactional(rollbackOn = InsufficientFundsException.class)
+	public FlightBookingResponse getResponse (FlightBookingRequest request) throws InsufficientFundsException {
 		
 		Passenger getPassenger = request.getPassenger();
 		getPassenger = passengerRepo.save(getPassenger);
